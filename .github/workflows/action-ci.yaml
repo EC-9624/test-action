@@ -18,25 +18,31 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: v20.12.2
-      - name: install pnpm
-        run: npm install -g pnpm
 
-      - name: Get node version
-        id: node
-        run: |
-          echo "::set-output name=version::$(node -v)"
+      - name: Install PNPM
+        run: npm install -g pnpm
 
       - name: Get node_modules cache
         uses: actions/cache@v4
         id: node_modules
         with:
-          path: |
-            **/node_modules
+          path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}-${{ steps.node.outputs.version }}
 
       - name: Install dependencies
+        if: steps.node_modules.outputs.cache-hit != 'true'
         run: pnpm install
 
-      - name: Run xo linter if JS files changed
-        if: steps.node_modules.outputs.cache-hit == 'false'
-        run: pnpm xo
+      - name: Get XO cache
+        uses: actions/cache@v4
+        id: xo-cache
+        with:
+          path: ~/.cache/xo-linter
+          key: xo-cache-${{ runner.os }}-${{ hashFiles('**/*.js') }}
+
+      - name: Run xo linter
+        run: |
+          mkdir -p ~/.cache/xo-linter
+          [ -f ~/.cache/xo-linter/xo-cache.json ] && cp ~/.cache/xo-linter/xo-cache.json node_modules/.cache/xo-linter/xo-cache.json || true
+          pnpm xo
+          cp node_modules/.cache/xo-linter/xo-cache.json ~/.cache/xo-linter/xo-cache.json
