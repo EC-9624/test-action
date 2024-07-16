@@ -38,7 +38,7 @@ jobs:
         id: xo-cache
         with:
           path: ~/.cache/xo-linter
-          key: xo-cache-${{ runner.os }}-${{ hashFiles('**/*.js') }}
+          key: xo-cache-${{ steps.node.outputs.version }}-${{ hashFiles('**/*.js') }}
 
       - name: Run xo linter
         run: |
