@@ -32,6 +32,9 @@ jobs:
           path: ~/.cache/xo-linter
           key: xo-cache-${{ steps.node.outputs.version }}-${{ hashFiles('**/*.js') }}
 
+      - name: Get timestamp before linting
+        run: echo "LINT_START_TIME=$(date +%s)" >> $GITHUB_ENV
+
       - name: Run xo linter
         run: |
           mkdir -p ~/.cache/xo-linter
@@ -39,3 +42,9 @@ jobs:
           pnpm xo
           cp node_modules/.cache/xo-linter/xo-cache.json ~/.cache/xo-linter/xo-cache.json
         continue-on-error: true
+
+      - name: Calculate linting time
+        run: |
+          END_TIME=$(date +%s)
+          ELAPSED_TIME=$((END_TIME - ${{ env.LINT_START_TIME }}))
+          echo "Linting took $ELAPSED_TIME seconds"
