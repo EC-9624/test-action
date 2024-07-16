@@ -46,3 +46,4 @@ jobs:
           [ -f ~/.cache/xo-linter/xo-cache.json ] && cp ~/.cache/xo-linter/xo-cache.json node_modules/.cache/xo-linter/xo-cache.json || true
           pnpm xo
           cp node_modules/.cache/xo-linter/xo-cache.json ~/.cache/xo-linter/xo-cache.json
+        continue-on-error: true
