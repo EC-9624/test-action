@@ -22,15 +22,7 @@ jobs:
       - name: Install PNPM
         run: npm install -g pnpm
 
-      - name: Get node_modules cache
-        uses: actions/cache@v4
-        id: node_modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}-${{ steps.node.outputs.version }}
-
       - name: Install dependencies
-        if: steps.node_modules.outputs.cache-hit != 'true'
         run: pnpm install
 
       - name: Get XO cache
