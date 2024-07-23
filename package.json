@@ -1,0 +1,16 @@
+{
+  "name": "test-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint":  "xo ./src/ --cache --cache-strategy=content"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "xo": "^0.59.0"
+  }
+}
