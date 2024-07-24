@@ -1,0 +1,57 @@
+name: CI with Cache
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "src/**"
+jobs:
+  ci:
+    name: Initiate CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: v20.12.2
+
+      - name: install pnpm
+        run: npm install -g pnpm
+
+      - name: Restore XO Cache
+        id: restore-xo-cache
+        uses: actions/cache@v4
+        with:
+          paths: ~/.cache/xo-linter
+          key: xo-cache-${{ runner.os }}-${{ hashFiles('**/package.json', '**/pnpm-lock.yaml') }}
+
+      - name: Setup cache directory
+        run: mkdir -p ~/.cache/xo-linter
+
+      - name: Ensure xo-linter directory exists
+        run: mkdir -p node_modules/.cache/xo-linter
+
+      - name: Move xo-cache.json from cache
+        if: steps.restore-xo-cache.outputs.cache-hit == 'true'
+        run: |
+          if [ -f ~/.cache/xo-linter/xo-cache.json ]; then
+            mv ~/.cache/xo-linter/xo-cache.json node_modules/.cache/xo-linter/xo-cache.json
+          fi
+
+      - name: ESLint all files
+        run: pnpm run lint
+        continue-on-error: true # for testing only
+
+      - name: Move xo-cache.json to cache
+        run: |
+          if [ -f node_modules/.cache/xo-linter/xo-cache.json ]; then
+            mv node_modules/.cache/xo-linter/xo-cache.json ~/.cache/xo-linter/xo-cache.json
+          fi
+
+          if [ -f ~/.cache/xo-linter/xo-cache.json ]; then
+            head -c 100 ~/.cache/xo-linter/xo-cache.json
+          else
+            echo "~/.cache/xo-linter/xo-cache.json not found"
+          fi
