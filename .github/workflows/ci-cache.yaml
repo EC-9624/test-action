@@ -61,5 +61,7 @@ jobs:
         run: |
           if [ -f node_modules/.cache/xo-linter/xo-cache.json ]; then
             mv node_modules/.cache/xo-linter/xo-cache.json ~/.cache/xo-linter/xo-cache.json
-            head -c 100 ~/.cache/xo-linter/xo-cache.json
           fi
+
+      - name: Check xo cache
+        run: head -c 100 ~/.cache/xo-linter/xo-cache.json
