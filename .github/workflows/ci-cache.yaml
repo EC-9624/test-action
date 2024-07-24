@@ -57,5 +57,5 @@ jobs:
             mv node_modules/.cache/xo-linter/xo-cache.json ~/.cache/xo-linter/xo-cache.json
           fi
 
-      - name: Check xo cache
-        run: head -c 100 ~/.cache/xo-linter/xo-cache.json || echo "Cache file not found"
+      - name: Check XO cache
+        run: head -c 300 ~/.cache/xo-linter/xo-cache.json || echo "Cache file not found"
