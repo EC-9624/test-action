@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "time xo --cache --cache-strategy=content",
+    "lint": "time xo ",
     "cache": "mv  node_modules/.cache/xo-linter/xo-cache.json ./"
   },
   "keywords": [],
