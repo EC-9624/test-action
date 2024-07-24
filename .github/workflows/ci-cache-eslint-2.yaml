@@ -42,7 +42,7 @@ jobs:
           pnpm run lint:eslint
           end_time=$(date +%s)
           elapsed_time=$((end_time - start_time))
-          echo "Linting took ${elapsed_time} seconds"
+          echo "Linting took ${elapsed_time} seconds" | tee linting-time.txt
         continue-on-error: true
 
       - name: Move eslintcache
