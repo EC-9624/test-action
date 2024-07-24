@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:xo": "xo  --cache-strategy content",
     "lint:eslint": "eslint ./src/ --cache --cache-strategy content --cache-location ~/.cache/eslint/demo",
-    "cache": "mv  node_modules/.cache/xo-linter/xo-cache.json ./"
+    "cache:xo": "mv  node_modules/.cache/xo-linter/xo-cache.json ./"
   },
   "keywords": [],
   "author": "",
