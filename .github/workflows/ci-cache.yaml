@@ -24,7 +24,7 @@ jobs:
         id: restore-xo-cache
         uses: actions/cache@v4
         with:
-          paths: ~/.cache/xo-linter
+          path: ~/.cache/xo-linter
           key: xo-cache-${{ runner.os }}-${{ hashFiles('**/package.json', '**/pnpm-lock.yaml') }}
 
       - name: Setup cache directory
