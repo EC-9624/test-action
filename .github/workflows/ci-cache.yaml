@@ -1,9 +1,13 @@
 name: CI with Cache
+
 on:
   workflow_dispatch:
   push:
     paths:
       - "src/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+
 jobs:
   ci:
     name: Initiate CI
@@ -15,53 +19,43 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: v20.12.2
+          node-version: "20.x"
 
-      - name: install pnpm
+      - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: install packages
+      - name: Install packages
         run: pnpm install
 
       - name: Restore XO Cache
         id: restore-xo-cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/xo-linter
+          path: node_modules/.cache/xo-linter
           key: xo-cache-${{ runner.os }}-${{ hashFiles('**/package.json', '**/pnpm-lock.yaml') }}
-
-      - name: Setup cache directory
-        run: mkdir -p ~/.cache/xo-linter
+          restore-keys: |
+            xo-cache-${{ runner.os }}-
 
       - name: Ensure xo-linter directory exists
         run: mkdir -p node_modules/.cache/xo-linter
-
-      - name: pwd
-        run: pwd
-
-      - name: list
-        run: ls -a
 
       - name: Move xo-cache.json from cache
         if: steps.restore-xo-cache.outputs.cache-hit == 'true'
         run: |
           if [ -f ~/.cache/xo-linter/xo-cache.json ]; then
-            mv ~/.cache/xo-linter/xo-cache.json node_modules/.cache/xo-linter/xo-cache.json
-            ls node_modules/.cache/xo-linter/
+            mv ~/.cache/xo-linter/xo-cache.json node_modules/.cache/xo-linter/xo-cache.json || echo "Cache file not found"
           fi
 
-      - name: check if cache move correctly
-        run: ls node_modules/.cache/xo-linter/
-
-      - name: ESLint all files
+      - name: Run Linter
         run: pnpm run lint
-        continue-on-error: true # for testing only
+        continue-on-error: true
 
       - name: Move xo-cache.json to cache
         run: |
           if [ -f node_modules/.cache/xo-linter/xo-cache.json ]; then
+            mkdir -p ~/.cache/xo-linter
             mv node_modules/.cache/xo-linter/xo-cache.json ~/.cache/xo-linter/xo-cache.json
           fi
 
       - name: Check xo cache
-        run: head -c 100 ~/.cache/xo-linter/xo-cache.json
+        run: head -c 100 ~/.cache/xo-linter/xo-cache.json || echo "Cache file not found"
