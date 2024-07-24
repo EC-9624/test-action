@@ -38,5 +38,5 @@ jobs:
         run: pnpm run lint:eslint
         continue-on-error: true
 
-      - name: Check XO cache
+      - name: Check ESLint cache
         run: head -c 300 ~/.cache/eslint/demo || echo "Cache file not found"
