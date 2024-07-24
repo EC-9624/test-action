@@ -36,18 +36,22 @@ jobs:
       - name: Ensure xo-linter directory exists
         run: mkdir -p node_modules/.cache/xo-linter
 
+      - name: pwd
+        run: pwd
+
       - name: list
-        run: ls
+        run: ls -a
 
       - name: Move xo-cache.json from cache
         if: steps.restore-xo-cache.outputs.cache-hit == 'true'
         run: |
           if [ -f ~/.cache/xo-linter/xo-cache.json ]; then
             mv ~/.cache/xo-linter/xo-cache.json node_modules/.cache/xo-linter/xo-cache.json
+            ls node_modules/.cache/xo-linter/
           fi
 
       - name: check if cache move correctly
-        run: ls node_modules/.cache/
+        run: ls node_modules/.cache/xo-linter/
 
       - name: ESLint all files
         run: pnpm run lint
@@ -57,10 +61,5 @@ jobs:
         run: |
           if [ -f node_modules/.cache/xo-linter/xo-cache.json ]; then
             mv node_modules/.cache/xo-linter/xo-cache.json ~/.cache/xo-linter/xo-cache.json
-          fi
-
-          if [ -f ~/.cache/xo-linter/xo-cache.json ]; then
             head -c 100 ~/.cache/xo-linter/xo-cache.json
-          else
-            echo "~/.cache/xo-linter/xo-cache.json not found"
           fi
