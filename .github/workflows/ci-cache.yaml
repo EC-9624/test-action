@@ -20,8 +20,8 @@ jobs:
       - name: install pnpm
         run: npm install -g pnpm
 
-      - name: install xo
-        run: pnpm install --save-dev xo
+      - name: install packages
+        run: pnpm install
 
       - name: Restore XO Cache
         id: restore-xo-cache
