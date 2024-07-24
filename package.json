@@ -5,13 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "xo  --cache-strategy content",
+    "lint:xo": "xo  --cache-strategy content",
+    "lint:eslint": "eslint ./src/ --cache --cache-strategy content --cache-location ~/.cache/eslint/demo",
     "cache": "mv  node_modules/.cache/xo-linter/xo-cache.json ./"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "xo": "^0.59.0"
+    "xo": "^0.59.0",
+    "eslint": "^8.14.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-promise": "^6.0.0"
   }
 }

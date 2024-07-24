@@ -1,4 +1,4 @@
-name: CI with Cache
+name: CI with Cache XO
 
 on:
   workflow_dispatch:
@@ -47,7 +47,7 @@ jobs:
           fi
 
       - name: Run Linter
-        run: pnpm run lint
+        run: pnpm run lint:xo
         continue-on-error: true
 
       - name: Move xo-cache.json to cache
