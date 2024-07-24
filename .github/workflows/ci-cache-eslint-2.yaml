@@ -34,15 +34,9 @@ jobs:
           path: ~/.cache/eslint/
           key: eslint-cache-${{ runner.os }}-${{ hashFiles('**/package.json', '**/pnpm-lock.yaml') }}
 
-      - name: Run Linter and Measure Time
-        id: lint
+      - name: Run Linter
         run: |
-          #!/bin/bash
-          start_time=$(date +%s)
-          pnpm run lint:eslint
-          end_time=$(date +%s)
-          elapsed_time=$((end_time - start_time))
-          echo "Linting took ${elapsed_time} seconds" | tee linting-time.txt
+          time pnpm run lint:eslint
         continue-on-error: true
 
       - name: Move eslintcache
