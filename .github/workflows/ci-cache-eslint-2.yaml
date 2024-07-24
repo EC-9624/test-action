@@ -35,7 +35,7 @@ jobs:
           key: eslint-cache-${{ runner.os }}-${{ hashFiles('**/package.json', '**/pnpm-lock.yaml') }}
 
       - name: Run Linter
-        run: pnpm run lint:eslint
+        run: time pnpm run lint:eslint
         continue-on-error: true
 
       - name: Move eslintcache
