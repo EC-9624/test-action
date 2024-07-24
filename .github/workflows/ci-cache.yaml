@@ -20,6 +20,9 @@ jobs:
       - name: install pnpm
         run: npm install -g pnpm
 
+      - name: install xo
+        run: pnpm install --save-dev xo
+
       - name: Restore XO Cache
         id: restore-xo-cache
         uses: actions/cache@v4
