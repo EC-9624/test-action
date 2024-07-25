@@ -26,9 +26,5 @@ jobs:
 
       - name: Run Linter
         run: |
-          time npm run eslint:cache
+          time npm run eslint
         continue-on-error: true
-
-      
-
-      
