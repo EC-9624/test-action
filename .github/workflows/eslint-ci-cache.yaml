@@ -1,4 +1,4 @@
-name: CI with Cache ESLint 2
+name: CI with Cache ESLint no --cache-strategy
 
 on:
   workflow_dispatch:
@@ -6,11 +6,11 @@ on:
     paths:
       - "src/**"
       - "package.json"
-      - "pnpm-lock.yaml"
+      - "package-lock.json"
 
 jobs:
   ci:
-    name: Initiate CI
+    name: CI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,18 +21,15 @@ jobs:
         with:
           node-version: "20.x"
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install packages
-        run: pnpm install
+      - name: Install npm
+        run: npm ci
 
       - name: Restore ESLint Cache
         id: restore-xo-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/eslint/
-          key: eslint-cache-${{ runner.os }}-${{ hashFiles('**/package.json', '**/pnpm-lock.yaml') }}
+          key: eslint-cache-${{ runner.os }}-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: Run Linter
         run: |
