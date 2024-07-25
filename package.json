@@ -1,0 +1,20 @@
+{
+  "name": "test-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint",
+    "eslint:cache": "eslint --cache --cache-strategy content ",
+    "xo": "xo"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "eslint": "^9.7.0",
+    "globals": "^15.8.0",
+    "xo": "^0.59.2"
+  }
+}
